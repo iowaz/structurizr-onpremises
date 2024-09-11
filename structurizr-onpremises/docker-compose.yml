@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+   structurizr-diogo:
+      container_name: structurizr-diogo
+      build:
+         context: ./
+         dockerfile: Dockerfile
+      ports:
+         - "8090:8080"
+      volumes:
+         - "./data:/usr/local/structurizr"
+      networks:
+         - "localstack_default"
+
+networks:
+   localstack_default:
+      external: true

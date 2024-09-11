@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 class WorkspaceComponentImpl implements WorkspaceComponent {
 
@@ -107,19 +108,32 @@ class WorkspaceComponentImpl implements WorkspaceComponent {
         return workspaceDao.getWorkspaceIds();
     }
 
+//    @Override
+//    public Collection<WorkspaceMetaData> getWorkspaces() throws WorkspaceComponentException {
+//        List<WorkspaceMetaData> workspaces = new ArrayList<>();
+//        Collection<Long> workspaceIds = workspaceDao.getWorkspaceIds();
+//
+//        for (Long workspaceId : workspaceIds) {
+//            WorkspaceMetaData workspace = getWorkspaceMetaData(workspaceId);
+//            if (workspace != null) {
+//                workspaces.add(workspace);
+//            }
+//        }
+//
+//        workspaces.sort(Comparator.comparing(wmd -> wmd.getName().toLowerCase()));
+//
+//        return workspaces;
+//    }
+
     @Override
     public Collection<WorkspaceMetaData> getWorkspaces() throws WorkspaceComponentException {
-        List<WorkspaceMetaData> workspaces = new ArrayList<>();
         Collection<Long> workspaceIds = workspaceDao.getWorkspaceIds();
 
-        for (Long workspaceId : workspaceIds) {
-            WorkspaceMetaData workspace = getWorkspaceMetaData(workspaceId);
-            if (workspace != null) {
-                workspaces.add(workspace);
-            }
-        }
-
-        workspaces.sort(Comparator.comparing(wmd -> wmd.getName().toLowerCase()));
+        List<WorkspaceMetaData> workspaces = workspaceIds.parallelStream()
+                .map(this::getWorkspaceMetaData)
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparing(wmd -> wmd.getName().toLowerCase()))
+                .collect(Collectors.toList());
 
         return workspaces;
     }

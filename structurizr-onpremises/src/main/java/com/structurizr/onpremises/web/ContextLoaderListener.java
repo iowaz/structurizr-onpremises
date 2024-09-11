@@ -89,6 +89,11 @@ public class ContextLoaderListener implements ServletContextListener {
             log.info(" ____) | |_| |  | |_| | (__| |_| |_| | |  | |/ /| |   ");
             log.info("|_____/ \\__|_|   \\__,_|\\___|\\__|\\__,_|_|  |_/___|_|   ");
             log.info("                                                      ");
+            log.info("                 CUSTOM LOCALIZA BUILD                ");
+            log.info("                Atenção: .war customizado             ");
+            log.info("           enquanto issue #108 não é aprovada         ");
+            log.info(" https://github.com/structurizr/onpremises/issues/108 ");
+            log.info("                                                      ");
             log.info("Structurizr on-premises installation");
             log.info(" - build: " + new Version().getBuildNumber() + " (" + DateUtils.formatIsoDate(new Version().getBuildTimestamp()) + ")");
 
